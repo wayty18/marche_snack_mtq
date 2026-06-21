@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Étude de Marché – Snack Street Food de la Mer – Martinique</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0a1628 0%, #0d2b4e 50%, #0a3d2e 100%);
+      min-height: 100vh;
+      color: #e8f4f8;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(90deg, #006994, #00a86b);
+      padding: 40px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: "🌊"; font-size: 120px; position: absolute;
+      top: -20px; left: -20px; opacity: 0.08;
+    }
+    header::after {
+      content: "🐟"; font-size: 120px; position: absolute;
+      bottom: -20px; right: -20px; opacity: 0.08;
+    }
+    .header-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px; padding: 6px 18px;
+      font-size: 0.8rem; letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 16px; color: #a8e6cf;
+    }
+    header h1 { font-size: 2.4rem; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 10px; }
+    header h1 span { color: #00e5a0; }
+    header p { font-size: 1rem; color: rgba(255,255,255,0.75); max-width: 600px; margin: 0 auto; }
+    .source-tag { margin-top: 14px; font-size: 0.75rem; color: rgba(255,255,255,0.45); font-style: italic; }
+
+    /* ===== MAIN ===== */
+    main { max-width: 1100px; margin: 0 auto; padding: 40px 20px 60px; }
+
+    .section-title {
+      font-size: 1.3rem; font-weight: 700; color: #00e5a0;
+      margin: 40px 0 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .section-title::after {
+      content: ""; flex: 1; height: 1px;
+      background: linear-gradient(90deg, #00e5a0, transparent);
+    }
+
+    /* ===== KPI CARDS ===== */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px; margin-bottom: 10px;
+    }
+    .kpi-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px; padding: 24px 20px; text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .kpi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,229,160,0.15); }
+    .kpi-card::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: linear-gradient(90deg, #006994, #00e5a0);
+    }
+    .kpi-icon { font-size: 2rem; margin-bottom: 10px; }
+    .kpi-value { font-size: 2.2rem; font-weight: 800; color: #00e5a0; line-height: 1; }
+    .kpi-label { font-size: 0.82rem; color: rgba(255,255,255,0.6); margin-top: 8px; line-height: 1.4; }
+
+    /* ===== MAP SECTION ===== */
+    .map-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 750px) { .map-grid { grid-template-columns: 1fr; } }
+
+    .map-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px; overflow: hidden;
+    }
+    .map-card-header {
+      background: rgba(0,105,148,0.3);
+      padding: 14px 18px;
+      font-size: 0.9rem; font-weight: 700; color: #00e5a0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .map-card-header span { color: rgba(255,255,255,0.6); font-weight: 400; font-size: 0.78rem; }
+
+    /* Zone pour image carte */
+    .map-image-zone {
+      width: 100%; min-height: 280px;
+      background: rgba(0,0,0,0.25);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; padding: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .map-image-zone img {
+      width: 100%; height: auto;
+      border-radius: 8px; display: block;
+    }
+    .map-placeholder {
+      text-align: center; color: rgba(255,255,255,0.3);
+    }
+    .map-placeholder .map-icon { font-size: 3rem; margin-bottom: 8px; }
+    .map-placeholder p { font-size: 0.78rem; line-height: 1.6; }
+    .map-placeholder code {
+      display: inline-block; margin-top: 8px;
+      background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.3);
+      color: #00e5a0; padding: 4px 10px; border-radius: 6px; font-size: 0.72rem;
+    }
+
+    /* Tableau communes sous carte */
+    .map-table-wrap { padding: 16px; overflow-x: auto; }
+    .map-table {
+      width: 100%; border-collapse: collapse; font-size: 0.78rem;
+    }
+    .map-table th {
+      background: rgba(0,229,160,0.1); color: #00e5a0;
+      padding: 8px 10px; text-align: left; font-weight: 700;
+      border-bottom: 1px solid rgba(0,229,160,0.2);
+    }
+    .map-table td {
+      padding: 7px 10px; color: rgba(255,255,255,0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .map-table tr:hover td { background: rgba(255,255,255,0.04); }
+    .map-table .val { color: #00e5a0; font-weight: 700; text-align: right; }
+    .map-table .ratio-high { color: #f4a261; font-weight: 700; }
+    .map-table .ratio-ok { color: #00e5a0; font-weight: 700; }
+    .map-table tfoot td {
+      font-weight: 700; color: #fff;
+      background: rgba(0,105,148,0.2);
+      border-top: 1px solid rgba(0,229,160,0.3);
+    }
+
+    /* ===== BAR CHART ===== */
+    .bar-section {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 28px;
+    }
+    .bar-title { font-size: 0.95rem; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 20px; }
+    .bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .bar-label { width: 220px; font-size: 0.78rem; color: rgba(255,255,255,0.65); text-align: right; flex-shrink: 0; }
+    .bar-track { flex: 1; background: rgba(255,255,255,0.08); border-radius: 6px; height: 24px; overflow: hidden; }
+    .bar-fill {
+      height: 100%; border-radius: 6px;
+      display: flex; align-items: center; padding-left: 8px;
+      font-size: 0.75rem; font-weight: 700; color: #0a1628;
+    }
+    .bar-fill.snack    { background: linear-gradient(90deg, #00e5a0, #00b37a); }
+    .bar-fill.hebtour  { background: linear-gradient(90deg, #006994, #0099cc); }
+    .bar-fill.trad     { background: linear-gradient(90deg, #f4a261, #e76f51); }
+    .bar-fill.traiteur { background: linear-gradient(90deg, #9b59b6, #8e44ad); color: #fff; }
+    .bar-fill.hotel    { background: linear-gradient(90deg, #2ecc71, #27ae60); }
+    .bar-fill.camping  { background: linear-gradient(90deg, #e74c3c, #c0392b); color: #fff; }
+    .bar-fill.other    { background: linear-gradient(90deg, #7f8c8d, #95a5a6); }
+
+    /* ===== ZONE COMPARISON ===== */
+    .zone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 650px) { .zone-grid { grid-template-columns: 1fr; } }
+
+    .zone-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 22px 18px; text-align: center;
+    }
+    .zone-card.best { border-color: #00e5a0; background: rgba(0,229,160,0.08); }
+    .zone-name { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 14px; }
+    .zone-stat { margin: 8px 0; }
+    .zone-stat-value { font-size: 1.6rem; font-weight: 800; color: #00e5a0; }
+    .zone-stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
+    .zone-badge {
+      display: inline-block; margin-top: 12px;
+      background: #00e5a0; color: #0a1628;
+      font-size: 0.72rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    /* ===== ZONE BAR CHART ===== */
+    .zone-bar-section {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 28px;
+    }
+    .zone-bar-group { margin-bottom: 28px; }
+    .zone-bar-group-title {
+      font-size: 1rem; font-weight: 700; color: #fff;
+      margin-bottom: 12px; padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ===== INSIGHT CARDS ===== */
+    .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .insight-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 24px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .insight-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,105,148,0.25); }
+    .insight-card.highlight { border-color: #00e5a0; background: rgba(0,229,160,0.06); }
+    .insight-card.warning   { border-color: #f4a261; background: rgba(244,162,97,0.06); }
+    .insight-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .insight-emoji { font-size: 1.8rem; }
+    .insight-title { font-size: 1rem; font-weight: 700; color: #fff; }
+    .insight-body { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.7; }
+    .insight-body strong { color: #00e5a0; }
+    .insight-body .warn { color: #f4a261; }
+
+    /* ===== OPPORTUNITY BOX ===== */
+    .opportunity-box {
+      background: linear-gradient(135deg, rgba(0,229,160,0.12), rgba(0,105,148,0.12));
+      border: 2px solid #00e5a0; border-radius: 18px;
+      padding: 32px; text-align: center;
+    }
+    .opportunity-box h3 { font-size: 1.4rem; font-weight: 800; color: #00e5a0; margin-bottom: 16px; }
+    .opportunity-box p { font-size: 0.92rem; color: rgba(255,255,255,0.75); line-height: 1.8; max-width: 700px; margin: 0 auto 20px; }
+    .opportunity-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .tag {
+      background: rgba(0,229,160,0.15); border: 1px solid rgba(0,229,160,0.4);
+      color: #00e5a0; padding: 6px 16px; border-radius: 20px;
+      font-size: 0.82rem; font-weight: 600;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center; padding: 24px;
+      font-size: 0.75rem; color: rgba(255,255,255,0.3);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 650px) {
+      header h1 { font-size: 1.6rem; }
+      .bar-label { width: 130px; font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-badge">📋 Étude de marché – Business Plan</div>
+  <h1>🐟 Snack Street Food <span>de la Mer</span><br/>en Martinique</h1>
+  <p>Analyse du marché de la restauration rapide en Martinique<br/>pour l'implantation d'un concept de street food maritime</p>
+  <div class="source-tag">Source : INSEE 2026 – Données Power BI Desktop</div>
+</header>
+
+<main>
+
+  <!-- ===== KPIs GLOBAUX ===== -->
+  <div class="section-title">📊 Chiffres clés du marché</div>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon">👥</div>
+      <div class="kpi-value">361 000</div>
+      <div class="kpi-label">Habitants en Martinique</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🍽️</div>
+      <div class="kpi-value">4 845</div>
+      <div class="kpi-label">Établissements recensés (restauration & hébergement)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🥡</div>
+      <div class="kpi-value">1 743</div>
+      <div class="kpi-label">Snacks recensés en Martinique</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">📍</div>
+      <div class="kpi-value">4,83</div>
+      <div class="kpi-label">Snacks pour 1 000 habitants (île entière)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🏆</div>
+      <div class="kpi-value">34,56%</div>
+      <div class="kpi-label">Part des snacks dans la restauration totale</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🌐</div>
+      <div class="kpi-value">13,95</div>
+      <div class="kpi-label">Restaurants pour 1 000 habitants (total)</div>
+    </div>
+  </div>
+
+  <!-- ===== CARTES ===== -->
+  <div class="section-title">🗺️ Cartes de répartition des snacks</div>
+  <div class="map-grid">
+
+    <!-- CARTE 1 : Martinique entière -->
+    <div class="map-card">
+      <div class="map-card-header">
+        🇲🇶 Martinique entière — Répartition des snacks
+        <br/><span>Source : INSEE Power BI 2026</span>
+      </div>
+
+      <!--
+        ════════════════════════════════════════════════════
+        👉 POUR INTÉGRER TA CARTE POWER BI :
+           1. Exporte une capture d'écran de ta carte
+           2. Nomme le fichier : carte_martinique.png
+           3. Place-le dans le même dossier que ce fichier HTML
+           4. Remplace la div.map-placeholder par :
+              <img src="carte_martinique.png" alt="Carte Martinique" />
+        ════════════════════════════════════════════════════
+      -->
+      <div class="map-image-zone">
+        <img src="carte_martinique.png" alt="Carte Martinique" />
+          <div class="map-icon">🗺️</div>
+          <p>Insérer ici la capture d'écran<br/>de la carte Power BI – Martinique entière</p>
+          <code>carte_martinique.png</code>
+        </div>
+      </div>
+
+      <div class="map-table-wrap">
+        <table class="map-table">
+          <thead>
+            <tr>
+              <th>Commune</th>
+              <th>Zone</th>
+              <th style="text-align:right">Snacks</th>
+              <th style="text-align:right">Population</th>
+              <th style="text-align:right">Ratio/1000</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Fort-de-France</td><td>Centre</td><td class="val">483</td><td class="val">74 921</td><td class="ratio-high">6,45</td></tr>
+            <tr><td>Lamentin</td><td>Centre</td><td class="val">179</td><td class="val">39 641</td><td class="ratio-ok">4,52</td></tr>
+            <tr><td>Schoelcher</td><td>Centre</td><td class="val">65</td><td class="val">19 341</td><td class="ratio-ok">3,36</td></tr>
+            <tr><td>Saint-Joseph</td><td>Centre</td><td class="val">39</td><td class="val">16 135</td><td class="ratio-ok">2,42</td></tr>
+            <tr><td>Robert</td><td>Nord</td><td class="val">94</td><td class="val">21 305</td><td class="ratio-ok">4,41</td></tr>
+            <tr><td>Sainte-Marie</td><td>Nord</td><td class="val">57</td><td class="val">14 650</td><td class="ratio-ok">3,89</td></tr>
+            <tr><td>Gros-Morne</td><td>Nord</td><td class="val">18</td><td class="val">9 876</td><td class="ratio-ok">1,82</td></tr>
+            <tr><td>Lorrain</td><td>Nord</td><td class="val">25</td><td class="val">6 648</td><td class="ratio-ok">3,76</td></tr>
+            <tr><td>Saint-Pierre</td><td>Nord</td><td class="val">28</td><td class="val">4 088</td><td class="ratio-high">6,85</td></tr>
+            <tr><td>Carbet</td><td>Nord</td><td class="val">23</td><td class="val">3 517</td><td class="ratio-high">6,54</td></tr>
+            <tr><td>Morne-Rouge</td><td>Nord</td><td class="val">17</td><td class="val">4 551</td><td class="ratio-ok">3,74</td></tr>
+            <tr><td>Case-Pilote</td><td>Nord</td><td class="val">15</td><td class="val">4 499</td><td class="ratio-ok">3,33</td></tr>
+            <tr><td>Basse-Pointe</td><td>Nord</td><td class="val">14</td><td class="val">2 768</td><td class="ratio-high">5,06</td></tr>
+            <tr><td>Prêcheur</td><td>Nord</td><td class="val">13</td><td class="val">1 377</td><td class="ratio-high">9,44</td></tr>
+            <tr><td>Bellefontaine</td><td>Nord</td><td class="val">8</td><td class="val">1 901</td><td class="ratio-ok">4,21</td></tr>
+            <tr><td>Marigot</td><td>Nord</td><td class="val">5</td><td class="val">3 034</td><td class="ratio-ok">1,65</td></tr>
+            <tr><td>Morne-Vert</td><td>Nord</td><td class="val">5</td><td class="val">1 778</td><td class="ratio-ok">2,81</td></tr>
+            <tr><td>Macouba</td><td>Nord</td><td class="val">5</td><td class="val">1 017</td><td class="ratio-high">4,92</td></tr>
+            <tr><td>Ajoupa-Bouillon</td><td>Nord</td><td class="val">4</td><td class="val">1 715</td><td class="ratio-ok">2,33</td></tr>
+            <tr><td>Fonds-Saint-Denis</td><td>Nord</td><td class="val">2</td><td class="val">641</td><td class="ratio-ok">3,12</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="2"><strong>TOTAL MARTINIQUE</strong></td><td class="val">1 743</td><td class="val">361 000</td><td class="ratio-ok">4,83</td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- CARTE 2 : Sud Martinique -->
+    <div class="map-card">
+      <div class="map-card-header">
+        🌴 Sud de la Martinique — Zoom snacks
+        <br/><span>Source : INSEE Power BI 2026</span>
+      </div>
+
+      <!--
+        ════════════════════════════════════════════════════
+        👉 POUR INTÉGRER TA CARTE POWER BI :
+           1. Exporte une capture d'écran de ta carte du Sud
+           2. Nomme le fichier : carte_sud.png
+           3. Place-le dans le même dossier que ce fichier HTML
+           4. Remplace la div.map-placeholder par :
+              <img src="carte_sud.png" alt="Carte Sud Martinique" />
+        ════════════════════════════════════════════════════
+      -->
+      <div class="map-image-zone">
+        <img src="carte_sud.png" alt="Carte Sud Martinique" />
+          <div class="map-icon">🌴</div>
+          <p>Insérer ici la capture d'écran<br/>de la carte Power BI – Sud de la Martinique</p>
+          <code>carte_sud.png</code>
+        </div>
+      </div>
+
+      <div class="map-table-wrap">
+        <table class="map-table">
+          <thead>
+            <tr>
+              <th>Commune</th>
+              <th style="text-align:right">Snacks</th>
+              <th style="text-align:right">Population</th>
+              <th style="text-align:right">Ratio/1000</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Ducos</td><td class="val">61</td><td class="val">17 912</td><td class="ratio-ok">3,41</td></tr>
+            <tr><td>François</td><td class="val">59</td><td class="val">15 996</td><td class="ratio-ok">3,69</td></tr>
+            <tr><td>Rivière-Salée</td><td class="val">67</td><td class="val">11 887</td><td class="ratio-high">5,64</td></tr>
+            <tr><td>Rivière-Pilote</td><td class="val">52</td><td class="val">11 712</td><td class="ratio-ok">4,44</td></tr>
+            <tr><td>Saint-Esprit</td><td class="val">36</td><td class="val">10 270</td><td class="ratio-ok">3,51</td></tr>
+            <tr><td>Sainte-Luce</td><td class="val">46</td><td class="val">9 350</td><td class="ratio-ok">4,92</td></tr>
+            <tr><td>Marin</td><td class="val">52</td><td class="val">8 586</td><td class="ratio-high">6,06</td></tr>
+            <tr><td>Vauclin</td><td class="val">46</td><td class="val">8 474</td><td class="ratio-high">5,43</td></tr>
+            <tr><td>Trois-Îlets</td><td class="val">44</td><td class="val">6 964</td><td class="ratio-high">6,32</td></tr>
+            <tr><td>Diamant</td><td class="val">35</td><td class="val">5 687</td><td class="ratio-high">6,16</td></tr>
+            <tr><td>Sainte-Anne</td><td class="val">42</td><td class="val">4 478</td><td class="ratio-high">9,38</td></tr>
+            <tr><td>Anses-d'Arlet</td><td class="val">28</td><td class="val">3 752</td><td class="ratio-high">7,46</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td><strong>TOTAL SUD</strong></td><td class="val">568</td><td class="val">115 000</td><td class="ratio-ok">4,94</td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /map-grid -->
+
+  <!-- ===== RÉPARTITION PAR ACTIVITÉ ===== -->
+  <div class="section-title">📈 Répartition du marché par type d'activité</div>
+  <div class="bar-section">
+    <div class="bar-title">
+      Nombre d'établissements par catégorie – Martinique — Total : <strong style="color:#00e5a0">4 845 établissements</strong>
+    </div>
+
+    <div class="bar-row">
+      <div class="bar-label">Restauration rapide (snacks…)</div>
+      <div class="bar-track">
+        <div class="bar-fill snack" style="width:34.56%">1 674 — 34,56%</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Restauration traditionnelle</div>
+      <div class="bar-track">
+        <div class="bar-fill trad" style="width:21.12%">1 023 — 21,12%</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Hébergement touristique</div>
+      <div class="bar-track">
+        <div class="bar-fill hebtour" style="width:28.40%">1 376 — 28,40%</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Services des traiteurs</div>
+      <div class="bar-track">
+        <div class="bar-fill traiteur" style="width:6.25%">303 — 6,25%</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Hôtels & hébergement similaire</div>
+      <div class="bar-track">
+        <div class="bar-fill hotel" style="width:5.76%">279 — 5,76%</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Terrains de camping</div>
+      <div class="bar-track">
+        <div class="bar-fill camping" style="width:3.47%">168 — 3,47%</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Autres restauration n.c.a.</div>
+      <div class="bar-track">
+        <div class="bar-fill other" style="width:0.66%">32</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Autres hébergements</div>
+      <div class="bar-track">
+        <div class="bar-fill other" style="width:0.33%">16</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Cafétérias & libres-services</div>
+      <div class="bar-track">
+        <div class="bar-fill other" style="width:0.02%">1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RÉPARTITION PAR ZONE ===== -->
+  <div class="section-title">🏙️ Répartition des snacks par zone géographique</div>
+  <div class="zone-bar-section">
+    <div class="bar-title">Nombre de snacks (restauration rapide) par zone — Total : <strong style="color:#00e5a0">1 622 snacks zonés</strong></div>
+
+    <div class="zone-bar-group">
+      <div class="zone-bar-group-title">🏙️ Centre — 735 snacks</div>
+      <div class="bar-row">
+        <div class="bar-label">Restauration rapide</div>
+        <div class="bar-track"><div class="bar-fill snack" style="width:45.31%">735</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Hébergement touristique</div>
+        <div class="bar-track"><div class="bar-fill hebtour" style="width:29.84%">484</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Restauration traditionnelle</div>
+        <div class="bar-track"><div class="bar-fill trad" style="width:26.47%">429</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Hôtels</div>
+        <div class="bar-track"><div class="bar-fill hotel" style="width:9.62%">156</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Services traiteurs</div>
+        <div class="bar-track"><div class="bar-fill traiteur" style="width:6.42%">104</div></div>
+      </div>
+    </div>
+
+    <div class="zone-bar-group">
+      <div class="zone-bar-group-title">🌴 Sud — 559 snacks</div>
+      <div class="bar-row">
+        <div class="bar-label">Hébergement touristique</div>
+        <div class="bar-track"><div class="bar-fill hebtour" style="width:41.04%">665</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Restauration rapide</div>
+        <div class="bar-track"><div class="bar-fill snack" style="width:34.49%">559</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Restauration traditionnelle</div>
+        <div class="bar-track"><div class="bar-fill trad" style="width:24.69%">400</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Hôtels</div>
+        <div class="bar-track"><div class="bar-fill hotel" style="width:9.63%">156</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Services traiteurs</div>
+        <div class="bar-track"><div class="bar-fill traiteur" style="width:6.42%">104</div></div>
+      </div>
+    </div>
+
+    <div class="zone-bar-group">
+      <div class="zone-bar-group-title">⛰️ Nord — 328 snacks</div>
+      <div class="bar-row">
+        <div class="bar-label">Restauration rapide</div>
+        <div class="bar-track"><div class="bar-fill snack" style="width:20.23%">328</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Hébergement touristique</div>
+        <div class="bar-track"><div class="bar-fill hebtour" style="width:12.21%">198</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Restauration traditionnelle</div>
+        <div class="bar-track"><div class="bar-fill trad" style="width:9.75%">158</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Terrains camping</div>
+        <div class="bar-track"><div class="bar-fill camping" style="width:3.45%">56</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Services traiteurs</div>
+        <div class="bar-track"><div class="bar-fill traiteur" style="width:2.96%">48</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COMPARAISON PAR ZONE ===== -->
+  <div class="section-title">📍 Synthèse par zone</div>
+  <div class="zone-grid">
+    <div class="zone-card">
+      <div class="zone-name">🏙️ Centre</div>
+      <div class="zone-stat"><div class="zone-stat-value">735</div><div class="zone-stat-label">Snacks recensés</div></div>
+      <div class="zone-stat"><div class="zone-stat-value">150 000</div><div class="zone-stat-label">Habitants</div></div>
+      <div class="zone-stat"><div class="zone-stat-value">5,11</div><div class="zone-stat-label">Snacks / 1 000 hbts</div></div>
+    </div>
+    <div class="zone-card best">
+      <div class="zone-name">🌴 Sud ⭐</div>
+      <div class="zone-stat"><div class="zone-stat-value">559</div><div class="zone-stat-label">Snacks recensés</div></div>
+      <div class="zone-stat"><div class="zone-stat-value">115 000</div><div class="zone-stat-label">Habitants</div></div>
+      <div class="zone-stat"><div class="zone-stat-value">4,94</div><div class="zone-stat-label">Snacks / 1 000 hbts</div></div>
+      <div class="zone-badge">✅ Zone recommandée</div>
+    </div>
+    <div class="zone-card">
+      <div class="zone-name">⛰️ Nord</div>
+      <div class="zone-stat"><div class="zone-stat-value">328</div><div class="zone-stat-label">Snacks recensés</div></div>
+      <div class="zone-stat"><div class="zone-stat-value">~96 000</div><div class="zone-stat-label">Habitants (estimé)</div></div>
+      <div class="zone-stat"><div class="zone-stat-value">~3,42</div><div class="zone-stat-label">Snacks / 1 000 hbts</div></div>
+    </div>
+  </div>
+
+  <!-- ===== INSIGHTS STRATÉGIQUES ===== -->
+  <div class="section-title">💡 Insights stratégiques pour le business plan</div>
+  <div class="insight-grid">
+
+    <div class="insight-card highlight">
+      <div class="insight-header">
+        <div class="insight-emoji">🥇</div>
+        <div class="insight-title">Un marché dominé par la restauration rapide</div>
+      </div>
+      <div class="insight-body">
+        Avec <strong>1 674 établissements (34,56%)</strong>, la restauration rapide est le <strong>premier segment</strong> de la restauration en Martinique. Le concept de street food s'inscrit dans la tendance dominante du marché local.
+      </div>
+    </div>
+
+    <div class="insight-card highlight">
+      <div class="insight-header">
+        <div class="insight-emoji">🌊</div>
+        <div class="insight-title">Le Sud : zone d'opportunité maritime</div>
+      </div>
+      <div class="insight-body">
+        Le Sud affiche <strong>4,94 snacks/1 000 hbts</strong>, ratio inférieur au Centre (5,11), avec une forte attractivité touristique. <strong>665 hébergements touristiques</strong> dans le Sud génèrent un flux de clientèle captif idéal pour un snack de la mer.
+      </div>
+    </div>
+
+    <div class="insight-card highlight">
+      <div class="insight-header">
+        <div class="insight-emoji">🏖️</div>
+        <div class="insight-title">Sainte-Anne & Anses-d'Arlet : hotspots</div>
+      </div>
+      <div class="insight-body">
+        Sainte-Anne affiche le ratio le plus élevé du Sud (<strong>9,38 snacks/1 000 hbts</strong>), signe d'une demande très forte liée au tourisme balnéaire. Anses-d'Arlet (<strong>7,46</strong>) confirme l'appétit pour la restauration rapide sur le littoral.
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div class="insight-header">
+        <div class="insight-emoji">📊</div>
+        <div class="insight-title">Fort-de-France : marché de volume</div>
+      </div>
+      <div class="insight-body">
+        Fort-de-France concentre à elle seule <strong>483 snacks</strong> sur 74 921 habitants (ratio 6,45). C'est le marché le plus dense mais aussi le plus concurrentiel. Pertinent pour une <strong>implantation secondaire</strong>.
+      </div>
+    </div>
+
+    <div class="insight-card warning">
+      <div class="insight-header">
+        <div class="insight-emoji">⚠️</div>
+        <div class="insight-title">Concurrence élevée à différencier</div>
+      </div>
+      <div class="insight-body">
+        Avec <strong>1 674 snacks</strong> en Martinique, la concurrence est réelle. La <strong class="warn">spécialisation "produits de la mer"</strong> (poissons, lambis, chatrou, langouste) constitue un axe de différenciation fort dans un marché peu segmenté par thématique culinaire.
+      </div>
+    </div>
+
+    <div class="insight-card warning">
+      <div class="insight-header">
+        <div class="insight-emoji">🎯</div>
+        <div class="insight-title">Double cible : touristes + locaux du littoral</div>
+      </div>
+      <div class="insight-body">
+        Le Sud concentre <strong class="warn">665 hébergements touristiques</strong> (34% du total Sud). Un snack de la mer positionné sur le littoral peut capter à la fois la <strong>clientèle locale</strong> et les <strong>flux touristiques</strong> importants du Marin, Trois-Îlets et Sainte-Anne.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== OPPORTUNITÉ FINALE ===== -->
+  <div class="section-title">🚀 Synthèse de l'opportunité</div>
+  <div class="opportunity-box">
+    <h3>🐠 Un concept différenciant dans un marché porteur</h3>
+    <p>
+      Le marché martiniquais de la restauration rapide est <strong>dynamique et dominant</strong> (34,56% du secteur, 1 674 établissements).
+      Le Sud de l'île présente le meilleur équilibre entre <strong>densité concurrentielle modérée</strong>,
+      <strong>attractivité touristique exceptionnelle</strong> (665 hébergements) et <strong>proximité maritime</strong>.
+      Un snack de street food de la mer, ancré dans les produits locaux (poissons, lambis, chatrou, langouste),
+      répond à une demande non couverte et à une identité culinaire forte de la Martinique.
+    </p>
+    <div class="opportunity-tags">
+      <span class="tag">🐟 Produits de la mer locaux</span>
+      <span class="tag">🌴 Zone Sud recommandée</span>
+      <span class="tag">🎯 Différenciation par concept</span>
+      <span class="tag">👥 Cible touristes + locaux</span>
+      <span class="tag">📈 Marché en croissance</span>
+      <span class="tag">🏖️ Implantation littorale</span>
+      <span class="tag">🦞 Identité créole maritime</span>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Étude de marché – Snack Street Food de la Mer en Martinique | Source : INSEE Power BI 2026 | Document à usage interne – Business Plan
+</footer>
+
+</body>
+</html>
